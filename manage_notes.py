@@ -1,6 +1,5 @@
 import json
 
-
 class Notes:
 
     def __init__(self) -> None:
@@ -12,15 +11,22 @@ class Notes:
             json.dump(self._data, json_file)
 
     def add_note(self, name, date, note):
-        #if self._data[name][date] is None:
-        self._data[name] = {date: note}
+        #data = {date: note}
+        try:
+            #self._data[name].append(data)
+            self._data[name][str(date)] = note
+            print(self._data[name])
+        except KeyError:
+            #self._data[name] = []
+            #self._data[name].append(data)
+            self._data[name] = {}
+            self._data[name][str(date)] = note
         self.save_data()
         #else:
-        #   raise Exception("There is already a note for this date and name.")
-
-
+        #    raise IndexError("There is already a note for this date and name.")
 
 if __name__ == "__main__":
     n = Notes()
     n.add_note("patrice", '10', 10)
     print(n._data)
+    
