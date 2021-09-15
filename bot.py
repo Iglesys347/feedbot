@@ -14,6 +14,9 @@ SERVER_ID = 804359800623595572
 CHANNEL_ID = 804359800623595577
 LOOP_HOURS = 168
 
+MIN = 0
+MAX = 5
+
 BOT_TOKEN = open(".token").read()
 
 @bot.event
@@ -23,8 +26,8 @@ async def on_ready():
 @tasks.loop(hours=168)
 async def feedback():
     channel = bot.get_guild(SERVER_ID).get_channel(CHANNEL_ID)
-    await channel.send("<@Etudiant> **Time for feedback !**")
-    await channel.send("Please use the command `!note [0-5]` to evaluate how you felt this week.")
+    #await channel.send("<@Etudiant> **Time for feedback !**")
+    #await channel.send("Please use the command `!note [0-5]` to evaluate how you felt this week.")
 
 @feedback.before_loop
 async def before():
@@ -39,10 +42,13 @@ async def graph(ctx):
 
 @bot.command()
 async def note(ctx, note):
-    note = int(note)
+    try:
+        note = int(note)
+    except Exception:
+        ctx.send(f"The command `!note {note}` is not valid, please use an interger between {MIN} and {MAX}.")
     name = ctx.author.name
     week_nb = date.today().isocalendar()[1]
-    if note <= 5 and note >= 0:
+    if note <= MAX and note >= MIN:
         # try:
         notes.add_note(name, week_nb, note)
         await ctx.send(f"Thank you {name} for giving your opinion ! :smile:")
