@@ -5,8 +5,6 @@ from datetime import date
 from manage_notes import Notes
 from graph import NoteGraph
 
-notes = Notes()
-
 bot = commands.Bot(command_prefix = "!", description = "Feedback bot")
 
 # must be changed to suit the server
@@ -42,6 +40,7 @@ async def graph(ctx):
 
 @bot.command()
 async def note(ctx, note):
+    notes = Notes()
     try:
         note = int(note)
         name = ctx.author.name
