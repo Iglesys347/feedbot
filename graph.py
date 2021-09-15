@@ -1,6 +1,7 @@
 from os import name
 import matplotlib.pyplot as plt
 import json
+import os
 
 COLORS = ["r", "b", "g", "y", "m", "k"]
 
@@ -24,13 +25,19 @@ class NoteGraph:
     def make_graph(self, file_name):
         for i, usr in enumerate(self._users):
             plt.plot(self._data[usr].keys(), self._data[usr].values(), '-o', c=COLORS[i])
-
         y_mean, x_mean = self.compute_mean()
         plt.plot(x_mean, y_mean, '-o', c=COLORS[-1], linewidth=7.0)
         plt.legend(self._users + ["Mean"])
         plt.xlabel("Week numbers")
         plt.ylabel("Satisfaction note")
-        plt.savefig(file_name)            
+        if os.path.isfile(file_name):
+            os.remove(file_name)
+        plt.savefig(file_name)
+        plt.clf()
+
+    def __del__(self):
+        self._data.clear()
+        self._users.clear()
 
 if __name__ == "__main__":
     n = NoteGraph()
