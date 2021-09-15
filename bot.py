@@ -44,21 +44,21 @@ async def graph(ctx):
 async def note(ctx, note):
     try:
         note = int(note)
+        name = ctx.author.name
+        week_nb = date.today().isocalendar()[1]
+        if note <= MAX and note >= MIN:
+            # try:
+            notes.add_note(name, week_nb, note)
+            await ctx.send(f"Thank you {name} for giving your opinion ! :smile:")
+            if note <= 1:
+                await ctx.send(f"Don't worry {name}, whatever obstacles you find on your way, keep going, keep believing, hope will be your greatest victory. :muscle:")
+            # except AttributeError as e:
+                # await ctx.send(f"{name}, you already gave a note for this week.")
+                # print(e)
+        else:
+            await ctx.send(f"Sorry {name}, but your note isn't valid (your note must be an integer between 0 and 5)")
     except Exception:
-        ctx.send(f"The command `!note {note}` is not valid, please use an interger between {MIN} and {MAX}.")
-    name = ctx.author.name
-    week_nb = date.today().isocalendar()[1]
-    if note <= MAX and note >= MIN:
-        # try:
-        notes.add_note(name, week_nb, note)
-        await ctx.send(f"Thank you {name} for giving your opinion ! :smile:")
-        if note <= 1:
-            await ctx.send(f"Don't worry {name}, whatever obstacles you find on your way, keep going, keep believing, hope will be your greatest victory. :muscle:")
-        # except AttributeError as e:
-            # await ctx.send(f"{name}, you already gave a note for this week.")
-            # print(e)
-    else:
-        await ctx.send(f"Sorry {name}, but your note isn't valid (your note must be an integer between 0 and 5)")
+        await ctx.send(f"The command `!note {note}` is not valid, please use an interger between {MIN} and {MAX}.")
 
 feedback.start()
 bot.run(BOT_TOKEN)
