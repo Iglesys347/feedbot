@@ -11,7 +11,7 @@ bot = commands.Bot(command_prefix = "!", description = "Feedback bot")
 
 # must be changed to suit the server
 SERVER_ID = 804359800623595572
-CHANNEL_ID = 804359800623595577
+CHANNEL_ID = 823566592801636372
 LOOP_HOURS = 168
 
 MIN = 0
@@ -26,8 +26,8 @@ async def on_ready():
 @tasks.loop(hours=168)
 async def feedback():
     channel = bot.get_guild(SERVER_ID).get_channel(CHANNEL_ID)
-    #await channel.send("<@Etudiant> **Time for feedback !**")
-    #await channel.send("Please use the command `!note [0-5]` to evaluate how you felt this week.")
+    await channel.send("<@Etudiant> **Time for feedback !**")
+    await channel.send("Please use the command `!note [0-5]` to evaluate how you felt this week.")
 
 @feedback.before_loop
 async def before():
